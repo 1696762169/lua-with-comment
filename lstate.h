@@ -270,9 +270,10 @@ struct CallInfo {
 
 /*
 ** 'global state', shared by all threads of this state
+** [JYX] 此对象在lstate的lua_newstate中创建并初始化
 */
 typedef struct global_State {
-  lua_Alloc frealloc;  /* function to reallocate memory */
+  lua_Alloc frealloc;  /* function to reallocate memory [JYX] 指向lauxlib中的l_alloc函数 */
   void *ud;         /* auxiliary data to 'frealloc' */
   lu_mem totalbytes;  /* number of bytes currently allocated */
   l_obj totalobjs;  /* total number of objects allocated + GCdebt */
@@ -287,6 +288,11 @@ typedef struct global_State {
   lu_byte currentwhite;
   lu_byte gcstate;  /* state of garbage collector */
   lu_byte gckind;  /* kind of GC running */
+  /* 
+  * [JYX] 新创建对象/调整表大小/运行栈大小时 调用luaM_malloc_/luaM_reallocvector等方法分配内存
+  * 若失败则会尝试进行一次Full GC以释放内存
+  * 设置gcstopem为1 则不会进行Emergency GC 当正在进行GC或调整运行栈大小时会进行此设置
+  */
   lu_byte gcstopem;  /* stops emergency collections */
   lu_byte gcstp;  /* control whether GC is running */
   lu_byte gcemergency;  /* true if this is an emergency collection */
@@ -314,6 +320,7 @@ typedef struct global_State {
   TString *memerrmsg;  /* message for memory-allocation errors */
   TString *tmname[TM_N];  /* array with tag-method names */
   struct Table *mt[LUA_NUMTYPES];  /* metatables for basic types */
+  /* [JYX] 字符串在这里还有一个“高速缓存” 可以在访问桶列表之前先访问缓存 此缓存用指针地址作为Hash值 并不是字符串内容 */
   TString *strcache[STRCACHE_N][STRCACHE_M];  /* cache for strings in API */
   lua_WarnFunction warnf;  /* warning function */
   void *ud_warn;         /* auxiliary data to 'warnf' */

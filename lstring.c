@@ -91,6 +91,9 @@ static void tablerehash (TString **vect, int osize, int nsize) {
 ** Resize the string table. If allocation fails, keep the current size.
 ** (This can degrade performance, but any non-zero size should work
 ** correctly.)
+** [JYX] 此处的nsize始终为2的整数次幂
+** 当新增字符串时，若字符串数量超过桶数量 则扩容为原来的2倍
+** GC完毕时，若字符串的数量小于桶数量的1/4，则缩容为原来的一半
 */
 void luaS_resize (lua_State *L, int nsize) {
   stringtable *tb = &G(L)->strt;

@@ -224,8 +224,8 @@ static void f_luaopen (lua_State *L, void *ud) {
   UNUSED(ud);
   stack_init(L, L);  /* init stack */
   init_registry(L, g);
-  luaS_init(L);
-  luaT_init(L);
+  luaS_init(L); /* [JYX] 初始化字符串缓存容器 */
+  luaT_init(L); /* [JYX] 初始化元方法字符串并Fix */
   luaX_init(L);
   g->gcstp = 0;  /* allow gc */
   setnilvalue(&g->nilvalue);  /* now state is complete */
@@ -340,7 +340,7 @@ LUA_API int lua_closethread (lua_State *L, lua_State *from) {
   return status;
 }
 
-
+// [JYX] 这里这个lua_Alloc是一个函数指针 指向lauxlib中的l_alloc函数 实际上就是realloc（调试时替换为debug_realloc）
 LUA_API lua_State *lua_newstate (lua_Alloc f, void *ud, unsigned seed) {
   int i;
   lua_State *L;

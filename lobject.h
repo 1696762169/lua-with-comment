@@ -405,12 +405,14 @@ typedef struct GCObject {
 typedef struct TString {
   CommonHeader;
   lu_byte extra;  /* reserved words for short strings; "has hash" for longs */
+  /* [JYX] 长度小于LUAI_MAXSHORTLEN的视为短字符串 默认值是40 */
   ls_byte shrlen;  /* length for short strings, negative for long strings */
   unsigned int hash;
   union {
     size_t lnglen;  /* length for long strings */
     struct TString *hnext;  /* linked list for hash table */
   } u;
+  /* [JYX] 一般情况下contents处即为字符串的首地址 contents的值为第一个字符 即字符串内容和此结构体占用的空间是连续的 且不需要下面的两个参数 */
   char *contents;  /* pointer to content in long strings */
   lua_Alloc falloc;  /* deallocation function for external strings */
   void *ud;  /* user data for external strings */

@@ -251,9 +251,9 @@ GCObject *luaC_newobjdt (lua_State *L, lu_byte tt, size_t sz, size_t offset) {
   char *p = cast_charp(luaM_newobject(L, novariant(tt), sz));
   GCObject *o = cast(GCObject *, p + offset);
   g->GCdebt--;
-  o->marked = luaC_white(g);
+  o->marked = luaC_white(g); /* [JYX] 新创建的对象默认是白色 */
   o->tt = tt;
-  o->next = g->allgc;
+  o->next = g->allgc;   /* [JYX] 将新创建的对象加入到allgc链表 */
   g->allgc = o;
   return o;
 }

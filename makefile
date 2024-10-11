@@ -76,7 +76,8 @@ MYLIBS=
 
 
 CC= gcc
-CFLAGS= -Wall -O2 $(MYCFLAGS) -fno-stack-protector -fno-common -march=native -g	# [JYX] 新增-g选项以便于调试
+# [JYX] 新增-g选项 修改O2为O0 以便于调试
+CFLAGS= -Wall -O0 $(MYCFLAGS) -fno-stack-protector -fno-common -march=native -g
 AR= ar rc
 RANLIB= ranlib
 RM= rm -f
