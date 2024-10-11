@@ -70,13 +70,13 @@ LOCAL = $(TESTS) $(CWARNS)
 
 
 # enable Linux goodies
-MYCFLAGS= $(LOCAL) -std=c99 -DLUA_USE_LINUX
+MYCFLAGS= $(LOCAL) -std=c99
 MYLDFLAGS= $(LOCAL) -Wl,-E
-MYLIBS= -ldl
+MYLIBS= 
 
 
 CC= gcc
-CFLAGS= -Wall -O2 $(MYCFLAGS) -fno-stack-protector -fno-common -march=native
+CFLAGS= -Wall -O2 $(MYCFLAGS) -fno-stack-protector -fno-common -march=native -g	# [JYX] 新增-g选项以便于调试
 AR= ar rc
 RANLIB= ranlib
 RM= rm -f
@@ -104,8 +104,8 @@ ALL_T= $(CORE_T) $(LUA_T)
 ALL_O= $(CORE_O) $(LUA_O) $(AUX_O) $(LIB_O)
 ALL_A= $(CORE_T)
 
-all:	$(ALL_T)
-	touch all
+
+all:	$(ALL_T) clean
 
 o:	$(ALL_O)
 
