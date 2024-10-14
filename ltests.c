@@ -719,7 +719,7 @@ static char *buildop (Proto *p, int pc, char *buff) {
 }
 
 
-#if 0
+#if 1
 void luaI_printcode (Proto *pt, int size) {
   int pc;
   for (pc=0; pc<size; pc++) {

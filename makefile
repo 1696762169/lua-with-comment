@@ -64,6 +64,7 @@ CWARNS= $(CWARNSCPP) $(CWARNSC) $(CWARNGCC)
 # -fsanitize=undefined
 # -fsanitize=pointer-subtract -fsanitize=address -fsanitize=pointer-compare
 # TESTS= -DLUA_USER_H='"ltests.h"' -O0 -g
+LUA_TEST_H= "\"ltests.h\""
 
 
 LOCAL = $(TESTS) $(CWARNS)
@@ -76,8 +77,7 @@ MYLIBS=
 
 
 CC= gcc
-# [JYX] 新增-g选项 修改O2为O0 以便于调试
-CFLAGS= -Wall -O0 $(MYCFLAGS) -fno-stack-protector -fno-common -march=native -g
+CFLAGS= -Wall -O2 $(MYCFLAGS) -fno-stack-protector -fno-common -march=native
 AR= ar rc
 RANLIB= ranlib
 RM= rm -f
@@ -97,7 +97,7 @@ AUX_O=	lauxlib.o
 LIB_O=	lbaselib.o ldblib.o liolib.o lmathlib.o loslib.o ltablib.o lstrlib.o \
 	lutf8lib.o loadlib.o lcorolib.o linit.o
 
-LUA_T=	lua
+LUA_T=	lua$(TEST_T)
 LUA_O=	lua.o
 
 
@@ -107,6 +107,9 @@ ALL_A= $(CORE_T)
 
 
 all:	$(ALL_T) clean
+
+debug:
+	$(MAKE) TESTS="-DLUA_USER_H='$(LUA_TEST_H)' -O0 -g" TEST_T="-debug" all
 
 o:	$(ALL_O)
 
@@ -138,6 +141,8 @@ echo:
 	@echo "DL = $(DL)"
 
 $(ALL_O): makefile ltests.h
+
+.PHONY: clean debug o a all depend echo
 
 # DO NOT EDIT
 # automatically made with 'gcc -MM l*.c'

@@ -8,7 +8,7 @@
             "name": "Debug Lua",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/lua.exe",
+            "program": "${workspaceFolder}/lua-debug.exe",
             "args": ["${workspaceFolder}/custom_test.lua"],
             "cwd": "${workspaceFolder}",
             // "stopAtEntry": true,

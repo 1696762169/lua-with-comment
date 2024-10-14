@@ -135,7 +135,8 @@ LUA_API void *debug_realloc (void *ud, void *block,
 ** as it blocks some optimizations
 #define MAXINDEXRK	0
 */
-
+typedef struct Proto Proto;
+LUA_API void luaI_printcode (Proto *pt, int size);
 
 /* make stack-overflow tests run faster */
 #undef LUAI_MAXSTACK

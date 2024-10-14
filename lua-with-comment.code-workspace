@@ -64,6 +64,12 @@
 			"spwn": "spwn build",
 			"pkl": "cd $dir && pkl eval -f yaml $fileName -o $fileNameWithoutExt.yaml",
 			"gleam": "gleam run -m $fileNameWithoutExt"
+		},
+		"files.associations": {
+			"*.json": "json",
+			"*.py": "python",
+			"ldo.h": "c",
+			"lua.h": "c"
 		}
 	}
 }

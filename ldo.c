@@ -662,6 +662,14 @@ CallInfo *luaD_precall (lua_State *L, StkId func, int nresults) {
     case LUA_VLCL: {  /* Lua function */
       CallInfo *ci;
       Proto *p = clLvalue(s2v(func))->p;
+
+      /* [JYX] 新增函数执行前的钩子 */
+      #if defined(LUA_DEBUG)
+      printf("[DEBUG FUNC] %s:%d\n", getstr(p->source), p->linedefined);
+      luaI_printcode(p, p->sizecode);
+      printf("[DEBUG FUNC END]\n");
+      #endif
+
       int narg = cast_int(L->top.p - func) - 1;  /* number of real arguments */
       int nfixparams = p->numparams;
       int fsize = p->maxstacksize;  /* frame size */
